@@ -28,6 +28,7 @@ function render(element, content) {
 function reactive(obj) {
   const keys = Object.keys(obj);
   const reactiveObj = {};
+
   keys.forEach((key) => {
     let value = obj[key];
     Object.defineProperty(reactiveObj, key, {
@@ -54,7 +55,7 @@ function track(target, key) {
       deps = new Map();
       depsMap.set(target, deps);
     }
-    let dep = deps.get(key);
+    dep = deps.get(key);
     if (!dep) {
       dep = new Set();
       deps.set(key, dep);

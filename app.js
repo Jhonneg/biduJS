@@ -14,17 +14,17 @@ const mockWeatherData = {
     humidity: "55%",
     description: "Cloudy",
   },
-  "London": {
+  London: {
     temperature: "10°C",
     humidity: "75%",
     description: "Rainy",
   },
-  "Tokyo": {
+  Tokyo: {
     temperature: "22°C",
     humidity: "65%",
     description: "Sunny",
   },
-  "Sydney": {
+  Sydney: {
     temperature: "25°C",
     humidity: "60%",
     description: "Sunny",
@@ -35,13 +35,14 @@ function fetchWeather(city) {
   setTimeout(() => {
     const weather = mockWeatherData[city];
     state.weather = weather;
-  });
+  }, 500);
 }
 createEffect(() => {
   fetchWeather(state.selectedCity);
 });
 
 createEffect(() => {
+  console.log("re-render");
   render(
     "#container",
     ` <select onChange=updateSelectedCity(this.value)>
