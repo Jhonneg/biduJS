@@ -1,3 +1,4 @@
+//initialize component state
 let state = reactive({
   selectedCity: "Hello Universe",
   weather: {
@@ -36,27 +37,28 @@ function fetchWeather(city) {
     state.weather = weather;
   });
 }
+createEffect(() => {
+  fetchWeather(state.selectedCity);
+});
 
-function renderApp() {
+createEffect(() => {
   render(
     "#container",
     ` <select onChange=updateSelectedCity(this.value)>
-        <option value="Tokyo">Tokyo</option>
-        <option value="London">London</option>
-        <option value="New York">New York</option>
-      </select>
-      <div>
-        <p>Temperature : ${state.weather.temperature}</p>
-        <p>Humidity : ${state.weather.humidity}</p>
-        <p>Description : ${state.weather.description}</p>
-      </div>
-    `
+          <option value="Tokyo">Tokyo</option>
+          <option value="London">London</option>
+          <option value="New York">New York</option>
+        </select>
+        <div>
+          <p>Temperature : ${state.weather.temperature}</p>
+          <p>Humidity : ${state.weather.humidity}</p>
+          <p>Description : ${state.weather.description}</p>
+        </div>
+      `
   );
-}
+});
 
 function updateSelectedCity(city) {
   state.selectedCity = city;
   fetchWeather(city);
 }
-
-renderApp();
