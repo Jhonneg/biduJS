@@ -41,38 +41,36 @@ function reactive(obj) {
         if (newValue !== value) {
           value = newValue;
           trigger(reactiveObj, key);
-          renderApp();
         }
       },
     });
   });
   return reactiveObj;
-
-  function track(target, key) {
-    if (currentEffect) {
-      let deps = depsMap.get(target);
-      if (!deps) {
-        deps = new Map();
-        depsMap.set(target, deps);
-      }
-      let dep = deps.get(key);
-      if (!dep) {
-        dep = new Set();
-        deps.set(key, dep);
-      }
-      dep.add(currentEffect);
+}
+function track(target, key) {
+  if (currentEffect) {
+    let deps = depsMap.get(target);
+    if (!deps) {
+      deps = new Map();
+      depsMap.set(target, deps);
     }
+    let dep = deps.get(key);
+    if (!dep) {
+      dep = new Set();
+      deps.set(key, dep);
+    }
+    dep.add(currentEffect);
   }
+}
 
-  function trigger(target, key) {
-    const deps = depsMap.get(target);
-    if (!deps) return;
-    const dep = deps.get(key);
-    if (dep) {
-      const effectsToRun = new Set(dep);
-      effectsToRun.forEach((effect) => {
-        effect();
-      });
-    }
+function trigger(target, key) {
+  const deps = depsMap.get(target);
+  if (!deps) return;
+  const dep = deps.get(key);
+  if (dep) {
+    const effectsToRun = new Set(dep);
+    effectsToRun.forEach((effect) => {
+      effect();
+    });
   }
 }
